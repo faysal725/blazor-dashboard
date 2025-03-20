@@ -1,7 +1,16 @@
-import React from 'react'
+import Header from "@/components/Header";
+import React from "react";
 
-export default function UsersPage() {
+export default async function UsersPage() {
+    // const data = await fetch('https://dummyjson.com/products')
+    // const users = await data.json()
+    // console.log(users)
   return (
-    <div>UsersPage</div>
-  )
+    <div>
+      <Header title="User" link="/dashboard/users/create" buttonTitle="Add User" />
+
+      {/* table  */}
+
+    </div>
+  );
 }

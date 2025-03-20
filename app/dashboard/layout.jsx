@@ -23,11 +23,13 @@ import {
   ShoppingBagIcon,
   UsersIcon,
   XMarkIcon,
+  BoltIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
+import Link from "next/link";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
@@ -104,12 +106,14 @@ export default function DashboardLayout({ children }) {
               </TransitionChild>
               {/* Sidebar component, swap this element with another sidebar if you like */}
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
-                <div className="flex h-16 shrink-0 items-center">
-                  <img
+                <div className="flex h-16 shrink-0 items-center gap-1">
+                  {/* <img
                     alt="Your Company"
                     src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                     className="h-8 w-auto"
-                  />
+                  /> */}
+                  <BoltIcon className="h-7 w-auto text-white" />
+                  <p className="text-2xl font-bold text-white italic">Blazor</p>
                 </div>
                 <nav className="flex flex-1 flex-col">
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -117,7 +121,7 @@ export default function DashboardLayout({ children }) {
                       <ul role="list" className="-mx-2 space-y-1">
                         {navigation.map((item) => (
                           <li key={item.name}>
-                            <a
+                            <Link
                               href={item.href}
                               className={classNames(
                                 item.current
@@ -131,7 +135,7 @@ export default function DashboardLayout({ children }) {
                                 className="size-6 shrink-0"
                               />
                               {item.name}
-                            </a>
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -160,12 +164,9 @@ export default function DashboardLayout({ children }) {
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
-            <div className="flex h-16 shrink-0 items-center">
-              <img
-                alt="Your Company"
-                src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-                className="h-8 w-auto"
-              />
+            <div className="flex h-16 shrink-0 items-center gap-1">
+              <BoltIcon className="h-7 w-auto text-white" />
+              <p className="text-2xl font-bold text-white italic">Blazor</p>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -173,7 +174,7 @@ export default function DashboardLayout({ children }) {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(
                             item.current
@@ -187,7 +188,7 @@ export default function DashboardLayout({ children }) {
                             className="size-6 shrink-0"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>
