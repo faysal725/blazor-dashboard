@@ -23,9 +23,9 @@ import {
   ShoppingBagIcon,
   UsersIcon,
   XMarkIcon,
-  BoltIcon,
 } from "@heroicons/react/24/outline";
 import {
+  BoltIcon,
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
