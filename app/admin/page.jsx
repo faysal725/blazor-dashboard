@@ -4,15 +4,9 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
-        {/* <img
-          alt="Your Company"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-          className="mx-auto h-10 w-auto"
-        /> */}
-
-        <div className="flex justify-center items-center gap-1">
-          <BoltIcon className="h-8 w-auto text-white" />
-          <p className="text-3xl font-bold text-white italic">Blazor</p>
+        <div className="flex justify-center items-center ">
+          <BoltIcon className="h-5 w-auto text-white" />
+          <p className="text-lg font-bold text-white italic">Blazor</p>
         </div>
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-white">
           Admin Login
