@@ -22,7 +22,7 @@ export default function Table({
                         scope="col"
                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 capitalize"
                       >
-                        {title}
+                        <p className="text-center">{title}</p>
                       </th>
                     ))}
                   </tr>
@@ -31,37 +31,23 @@ export default function Table({
                   {rowData.length > 0 &&
                     rowData.map((data, index) => (
                       <tr key={data.email}>
-                        {headTitles[0] == "S/L" && (
-                          <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-bold text-gray-900 sm:pl-6">
-                            {index + 1}
-                          </td>
-                        )}
+                        {headTitles.map((title, index) => {
+                          return (
+                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                              {title === "image" || title === "thumbnail" ? (
+                                <div className="w-full h-full flex justify-center">
+                                  <img
+                                    src={data[title]}
+                                    className="h-10 w-10"
+                                  />
+                                </div>
+                              ) : (
+                                data[title]
+                              )}
+                            </td>
+                          );
+                        })}
 
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {data[headTitles[1]]}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {data[headTitles[2]]}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {data[headTitles[3]]}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {data[headTitles[4]]}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {headTitles[5] === "image" ? (
-                            <img
-                              src={data[headTitles[5]]}
-                              className="h-8 w-8"
-                            />
-                          ) : (
-                            data[headTitles[5]]
-                          )}
-                        </td>
-                        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {data[headTitles[6]]}
-                        </td>
                         {enableEdit && (
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <Link
@@ -74,6 +60,14 @@ export default function Table({
                         )}
                       </tr>
                     ))}
+
+                  {rowData.length == 0 && (
+                    <tr>
+                      <td colSpan={headTitles.length}>
+                        <p className="text-center py-5 text-xs">No Data Found</p>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
