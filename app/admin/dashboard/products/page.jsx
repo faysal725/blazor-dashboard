@@ -35,7 +35,7 @@ export default async function ProductsPage(
   );
 
   const products = productsResponse.products;
-  console.log(products);
+  // console.log(products);
 
   return (
     <div>

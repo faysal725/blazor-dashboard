@@ -30,10 +30,10 @@ export default function Table({
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {rowData.length > 0 &&
                     rowData.map((data, index) => (
-                      <tr key={data.email}>
+                      <tr key={index*Math.random()}>
                         {headTitles.map((title, index) => {
                           return (
-                            <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
+                            <td key={title} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500 text-center">
                               {title === "image" || title === "thumbnail" ? (
                                 <div className="w-full h-full flex justify-center">
                                   <img

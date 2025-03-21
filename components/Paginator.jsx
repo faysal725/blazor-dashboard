@@ -63,7 +63,7 @@ export default function Paginator({ totalPage, currentPage, disable=false }) {
   }
 
   createPageURL(currentPage);
-  console.log(createPageURL(currentPage), "paginator");
+  // console.log(createPageURL(currentPage), "paginator");
 
 
   if (disable) {
@@ -76,7 +76,7 @@ export default function Paginator({ totalPage, currentPage, disable=false }) {
         {pages.map((page, index) => {
           return (
             <Link
-              key={page}
+              key={index*Math.random()}
               href={page === "..." ? "#" : createPageURL(page)}
               className={`text-xs p-2 px-3 cursor-pointer rounded transition-all duration-150 ${
                 currentPage == page && "bg-gray-900 text-white "
