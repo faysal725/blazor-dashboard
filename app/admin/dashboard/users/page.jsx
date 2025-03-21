@@ -4,7 +4,7 @@ import Table from "@/components/Table";
 import { createPaginationData } from "@/lib/paginationAction";
 import React from "react";
 
-export default async function ProductsPage(
+export default async function UsersPage(
   props = {
     searchParams: {
       query,
@@ -20,51 +20,44 @@ export default async function ProductsPage(
   // getting user Data
   const rootApi = process.env.NEXT_PUBLIC_API_URL;
   const data = await fetch(
-    `${rootApi}/products?limit=7&skip=${
+    `${rootApi}/users?limit=8&skip=${
       10 * currentPage
-    }&select=id,title,category,price,thumbnail,rating,stock,`
+    }&select=firstName,lastName,email,phone,image,role`
   );
 
-  if (!data.ok) {
-    notFound();
-  }
-  const productsResponse = await data.json();
-  const paginationData = await createPaginationData(
-    productsResponse,
-    currentPage
-  );
+  const usersResponse = await data.json();
+  const paginationData = await createPaginationData(usersResponse, currentPage);
 
-  const products = productsResponse.products;
-  console.log(products);
-
+  const users = usersResponse.users;
   return (
     <div>
       <Header
-        title="Products"
-        link="/dashboard/products/create"
-        buttonTitle="Add Product"
+        title="User"
+        link="/admin/dashboard/users/create"
+        buttonTitle="Add User"
       />
 
       {/* table  */}
       <Table
         headTitles={[
           "id",
-          "title",
-          "category",
-          "price",
-          "thumbnail",
-          "rating",
-          "stock",
+          "firstName",
+          "lastName",
+          "email",
+          "phone",
+          "image",
+          "role",
+          "edit",
         ]}
-        rowData={products}
+        rowData={users}
         enableEdit={true}
-        editLink="/dashboard/products/edit"
+        editLink="/admin/dashboard/users/edit"
       />
 
       <Paginator
         totalPage={paginationData.totalPage}
         currentPage={paginationData.currentPage}
-        disable={products.length == 0}
+        disable={users.length == 0}
       />
     </div>
   );

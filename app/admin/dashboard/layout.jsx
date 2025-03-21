@@ -23,6 +23,8 @@ import {
   ShoppingBagIcon,
   UsersIcon,
   XMarkIcon,
+  Squares2X2Icon,
+  ClipboardIcon
 } from "@heroicons/react/24/outline";
 import {
   BoltIcon,
@@ -32,24 +34,24 @@ import {
 import Link from "next/link";
 
 const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: HomeIcon, current: true },
-  { name: "Users", href: "/dashboard/users", icon: UsersIcon, current: false },
+  { name: "Dashboard", href: "/admin/dashboard", icon: HomeIcon, current: true },
+  { name: "Users", href: "/admin/dashboard/users", icon: UsersIcon, current: false },
   {
     name: "Products",
-    href: "/dashboard/products",
+    href: "/admin/dashboard/products",
     icon: ShoppingBagIcon,
     current: false,
   },
   {
     name: "Categories",
-    href: "/dashboard/categories",
-    icon: CalendarIcon,
+    href: "/admin/dashboard/categories",
+    icon: Squares2X2Icon,
     current: false,
   },
   {
     name: "Orders",
-    href: "/dashboard/orders",
-    icon: DocumentDuplicateIcon,
+    href: "/admin/dashboard/orders",
+    icon: ClipboardIcon,
     current: false,
   },
 ];
@@ -59,8 +61,7 @@ const teams = [
   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
 const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your profile", href: "#" }
 ];
 
 function classNames(...classes) {
@@ -270,7 +271,7 @@ export default function DashboardLayout({ children }) {
                         aria-hidden="true"
                         className="ml-4 text-sm/6 font-semibold text-gray-900"
                       >
-                        Tom Cook
+                        Hello Admin
                       </span>
                       <ChevronDownIcon
                         aria-hidden="true"
