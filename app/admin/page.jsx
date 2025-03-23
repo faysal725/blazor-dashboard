@@ -3,6 +3,7 @@ import { BoltIcon } from "@heroicons/react/24/outline";
 export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-900">
+      
       <div className="sm:mx-auto sm:w-full sm:max-w-sm ">
         <div className="flex justify-center items-center ">
           <BoltIcon className="h-5 w-auto text-white" />
@@ -65,6 +66,8 @@ export default function AdminLoginPage() {
           </div>
         </form>
       </div>
+
+      
     </div>
   );
 }
