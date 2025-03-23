@@ -27,7 +27,12 @@ export default function UserForm() {
     let password = userData.password;
 
     console.log(userData);
-    handleRegister({ name, email, password });
+
+    if (isSignUp) {
+      handleRegister({ name, email, password });
+    } else {
+      handleLogin({ email, password });
+    }
   };
 
   function eraseErrors() {
@@ -38,7 +43,27 @@ export default function UserForm() {
       common: "",
     });
   }
-  function handleLogin(userData) {}
+  const handleLogin = async (userData) => {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      console.log(document.cookie);
+      redirect("/admin/dashboard");
+    } else {
+      //   alert(data.message);
+      setUserErrorData((prevState) => {
+        return {
+          ...prevState,
+          common: data.message,
+        };
+      });
+    }
+  };
 
   const handleRegister = async (userData) => {
     const res = await fetch("/api/auth/register", {
