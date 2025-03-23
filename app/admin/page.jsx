@@ -42,7 +42,6 @@ export default function AdminLoginPage() {
               >
                 Password
               </label>
-              
             </div>
             <div className="mt-2">
               <input
