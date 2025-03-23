@@ -1,5 +1,4 @@
 import UserForm from "@/components/UserForm";
-import { BoltIcon } from "@heroicons/react/20/solid";
 import React from "react";
 
 export default function UserLoginPage() {

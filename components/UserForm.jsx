@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { BoltIcon } from "@heroicons/react/20/solid";
+import { redirect } from "next/navigation";
 
 export default function UserForm() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -14,16 +15,51 @@ export default function UserForm() {
     name: "",
     email: "",
     password: "",
+    common: "",
   });
 
   const submitForm = (event) => {
     event.preventDefault();
+    eraseErrors();
 
     let name = userData.name;
     let email = userData.email;
     let password = userData.password;
 
     console.log(userData);
+    handleRegister({ name, email, password });
+  };
+
+  function eraseErrors() {
+    setUserErrorData({
+      name: "",
+      email: "",
+      password: "",
+      common: "",
+    });
+  }
+  function handleLogin(userData) {}
+
+  const handleRegister = async (userData) => {
+    const res = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(userData),
+    });
+    const data = await res.json();
+
+    if (res.ok) {
+      console.log(document.cookie);
+      redirect("/admin/dashboard");
+    } else {
+      //   alert(data.message);
+      setUserErrorData((prevState) => {
+        return {
+          ...prevState,
+          common: data.message,
+        };
+      });
+    }
   };
 
   const onChange = (event) => {
@@ -54,7 +90,10 @@ export default function UserForm() {
         </p>
       </div>
 
-      <div className="mt-10">
+      <div className="mt-5">
+        <p className="text-base text-red-500 text-center">
+          {userErrorData.common}
+        </p>
         <div>
           <form onSubmit={submitForm} method="POST" className="space-y-6">
             {isSignUp && (

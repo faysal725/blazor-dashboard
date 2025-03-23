@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 import bcrypt from 'bcryptjs';
 import { findUserByEmail } from '@/lib/db';
 
@@ -12,12 +12,17 @@ export async function POST(req) {
     return new Response(JSON.stringify({ message: 'Invalid credentials' }), { status: 401 });
   }
 
-  const token = jwt.sign({ id: user.id, email, role: user.role }, SECRET, { expiresIn: '1h' });
+  const secret = new TextEncoder().encode(SECRET);
+  const token = await new SignJWT({ id: user.id, email, role: user.role })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('1h')
+    .sign(secret);
 
   return new Response(JSON.stringify({ message: 'Login successful' }), {
     status: 200,
     headers: {
-      'Set-Cookie': `token=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=3600`,
+      'Set-Cookie': `token=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=3600`,
     },
   });
 }
