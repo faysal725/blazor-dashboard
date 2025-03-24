@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Dialog,
   DialogBackdrop,
@@ -24,7 +25,7 @@ import {
   UsersIcon,
   XMarkIcon,
   Squares2X2Icon,
-  ClipboardIcon
+  ClipboardIcon,
 } from "@heroicons/react/24/outline";
 import {
   BoltIcon,
@@ -34,8 +35,18 @@ import {
 import Link from "next/link";
 
 const navigation = [
-  { name: "Dashboard", href: "/admin/dashboard", icon: HomeIcon, current: true },
-  { name: "Users", href: "/admin/dashboard/users", icon: UsersIcon, current: false },
+  {
+    name: "Dashboard",
+    href: "/admin/dashboard",
+    icon: HomeIcon,
+    current: true,
+  },
+  {
+    name: "Users",
+    href: "/admin/dashboard/users",
+    icon: UsersIcon,
+    current: false,
+  },
   {
     name: "Products",
     href: "/admin/dashboard/products",
@@ -60,9 +71,7 @@ const teams = [
   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
-const userNavigation = [
-  { name: "Your profile", href: "#" }
-];
+const userNavigation = [{ name: "Your profile", href: "#" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -70,8 +79,14 @@ function classNames(...classes) {
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const router = useRouter();
 
   console.log("client");
+
+  const handleLogout = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/admin");
+  };
   return (
     <>
       <div>
@@ -143,16 +158,16 @@ export default function DashboardLayout({ children }) {
                     </li>
 
                     <li className="mt-auto">
-                      <a
-                        href="#"
-                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
+                      <div
+                        onClick={() => handleLogout()}
+                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold cursor-pointer text-gray-400 hover:bg-gray-800 hover:text-white"
                       >
                         <Cog6ToothIcon
                           aria-hidden="true"
                           className="size-6 shrink-0"
                         />
                         Logout
-                      </a>
+                      </div>
                     </li>
                   </ul>
                 </nav>
@@ -195,16 +210,16 @@ export default function DashboardLayout({ children }) {
                   </ul>
                 </li>
                 <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-400 hover:bg-gray-800 hover:text-white"
+                  <div
+                    onClick={() => handleLogout()}
+                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold cursor-pointer text-gray-400 hover:bg-gray-800 hover:text-white"
                   >
                     <Cog6ToothIcon
                       aria-hidden="true"
                       className="size-6 shrink-0"
                     />
                     Logout
-                  </a>
+                  </div>
                 </li>
               </ul>
             </nav>
