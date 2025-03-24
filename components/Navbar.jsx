@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Fragment, useState } from "react";
 import {
@@ -137,56 +137,6 @@ export default function Navbar() {
             </div>
 
             {/* Links */}
-            <TabGroup className="mt-2">
-              <div className="border-b border-gray-200">
-                <TabList className="-mb-px flex space-x-8 px-4">
-                  {navigation.categories.map((category) => (
-                    <Tab
-                      key={category.name}
-                      className="flex-1 whitespace-nowrap border-b-2 border-transparent px-1 py-4 text-base font-medium text-gray-900 data-[selected]:border-indigo-600 data-[selected]:text-indigo-600"
-                    >
-                      {category.name}
-                    </Tab>
-                  ))}
-                </TabList>
-              </div>
-              <TabPanels as={Fragment}>
-                {navigation.categories.map((category) => (
-                  <TabPanel
-                    key={category.name}
-                    className="space-y-12 px-4 py-6"
-                  >
-                    <div className="grid grid-cols-2 gap-x-4 gap-y-10">
-                      {category.featured.map((item) => (
-                        <div key={item.name} className="group relative">
-                          <img
-                            alt={item.imageAlt}
-                            src={item.imageSrc}
-                            className="aspect-square w-full rounded-md bg-gray-100 object-cover group-hover:opacity-75"
-                          />
-                          <a
-                            href={item.href}
-                            className="mt-6 block text-sm font-medium text-gray-900"
-                          >
-                            <span
-                              aria-hidden="true"
-                              className="absolute inset-0 z-10"
-                            />
-                            {item.name}
-                          </a>
-                          <p
-                            aria-hidden="true"
-                            className="mt-1 text-sm text-gray-500"
-                          >
-                            Shop now
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  </TabPanel>
-                ))}
-              </TabPanels>
-            </TabGroup>
 
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               {navigation.pages.map((page) => (
@@ -223,7 +173,6 @@ export default function Navbar() {
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               {/* Currency selector */}
               <form>
-
                 <div className="-ml-2 inline-grid grid-cols-1 text-base font-medium sm:text-sm/6 text-white">
                   BDT
                 </div>
@@ -240,21 +189,19 @@ export default function Navbar() {
             <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
               {/* Currency selector */}
               <form>
-                <div className="-ml-2 inline-grid grid-cols-1 text-base font-medium sm:text-sm/6 text-white">
+                <div className="inline-grid grid-cols-1 text-base font-medium sm:text-sm/6 text-white">
                   BDT
                 </div>
               </form>
 
               <div className="flex items-center space-x-6">
-
-                
                 <Link
                   href="/user"
                   className="text-sm font-medium text-white hover:text-gray-100"
                 >
                   Sign in
                 </Link>
-                
+
                 <Link
                   href="/user"
                   className="text-sm font-medium text-white hover:text-gray-100"

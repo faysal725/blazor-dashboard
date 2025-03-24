@@ -20,10 +20,34 @@ const collections = [
     imageAlt: "Man wearing a comfortable and casual cotton t-shirt.",
   },
   {
-    name: "Desk Accessories",
+    name: "Accessories",
     href: "/category/accessories",
     imageSrc:
-      "https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-04-collection-03.jpg",
+      "/categoryImages/accessories.jpg",
+    imageAlt:
+      "Person sitting at a wooden desk with paper note organizer, pencil and tablet.",
+  },
+  {
+    name: "Vehicals",
+    href: "/category/vehicals",
+    imageSrc:
+      "/categoryImages/vehicals.jpg",
+    imageAlt:
+      "Person sitting at a wooden desk with paper note organizer, pencil and tablet.",
+  },
+  {
+    name: "Furnitures",
+    href: "/category/furnitures",
+    imageSrc:
+      "/categoryImages/furnitures.jpg",
+    imageAlt:
+      "Person sitting at a wooden desk with paper note organizer, pencil and tablet.",
+  },
+  {
+    name: "electronics",
+    href: "/category/electronics",
+    imageSrc:
+      "/categoryImages/electronics.jpg",
     imageAlt:
       "Person sitting at a wooden desk with paper note organizer, pencil and tablet.",
   },
@@ -131,14 +155,14 @@ export default async function Home() {
             </div>
             <div className="relative py-32">
               <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
-                Mid-Season Sale
+                Your Favorite Products, Just a Click Away!
               </h1>
               <div className="mt-4 sm:mt-6">
                 <a
                   href="#"
                   className="inline-block rounded-md border border-transparent bg-indigo-600 px-8 py-3 font-medium text-white hover:bg-indigo-700"
                 >
-                  Shop Collection
+                  Explore
                 </a>
               </div>
             </div>
@@ -151,7 +175,7 @@ export default async function Home() {
             <h2 id="collection-heading" className="sr-only">
               Collections
             </h2>
-            <div className="mx-auto grid max-w-md grid-cols-1 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 sm:px-6 lg:gap-x-8 lg:px-8">
+            <div className="mx-auto grid max-w-md grid-cols-1 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-6 sm:gap-x-6 sm:gap-y-0 sm:px-6 lg:gap-x-8 lg:px-8">
               {collections.map((collection) => (
                 <Link
                   key={collection.name}
@@ -173,10 +197,8 @@ export default async function Home() {
                   </div>
                   <div className="absolute inset-0 flex items-end rounded-lg p-6">
                     <div>
-                      <p aria-hidden="true" className="text-sm text-white">
-                        Shop the collection
-                      </p>
-                      <h3 className="mt-1 font-semibold text-white">
+                      
+                      <h3 className="mt-1 font-semibold text-white capitalize">
                         <div>
                           <span className="absolute inset-0" />
                           {collection.name}
