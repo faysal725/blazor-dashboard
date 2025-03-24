@@ -1,3 +1,4 @@
+import { StarIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import React from "react";
 
@@ -17,7 +18,18 @@ export default function ProductCard({ product }) {
           {product.title}
         </div>
       </h3>
-      <p className="mt-1 text-sm text-gray-500">{product.rating}</p>
+      <div className="flex items-center gap-0.5">
+        {[1, 2, 3, 4, 5].map((rate) => (
+          <StarIcon
+          key={rate}
+            className={`${
+              rate <= Math.floor(product.rating)
+                ? "text-yellow-500"
+                : "text-yellow-50"
+            } h-5 w-5`}
+          />
+        ))}
+      </div>
       <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
     </Link>
   );

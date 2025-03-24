@@ -14,6 +14,7 @@ const categories = {
       "womens-jewellery",
       "womens-shoes",
       "womens-watches",
+      "tops",
     ],
     image: "/categoryImages/women.jpg",
   },
@@ -21,22 +22,37 @@ const categories = {
     subcategories: [
       "beauty",
       "fragrances",
-      "furniture",
       "groceries",
-      "home-decoration",
-      "kitchen-accessories",
-      "laptops",
-      "mobile-accessories",
-      "motorcycle",
       "skin-care",
-      "smartphones",
       "sports-accessories",
       "sunglasses",
-      "tablets",
-      "tops",
-      "vehicle",
     ],
     image: "/categoryImages/accessories.jpg",
+  },
+  vehicals: {
+    subcategories: [
+      "motorcycle",
+      "vehicle",
+    ],
+    image: "/categoryImages/vehicals.jpg",
+  },
+  furnitures: {
+    subcategories: [
+      "furniture",
+      "vehicle",
+      "home-decoration",
+      "kitchen-accessories",
+    ],
+    image: "/categoryImages/furnitures.jpg",
+  },
+  electronics: {
+    subcategories: [
+      "tablets",
+      "laptops",
+      "mobile-accessories",
+      "smartphones",
+    ],
+    image: "/categoryImages/electronics.jpg",
   },
 };
 

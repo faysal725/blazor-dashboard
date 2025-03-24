@@ -2,25 +2,26 @@ import React from "react";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import ProductCard from "@/components/products/ProductCard";
+import Link from "next/link";
 
 const collections = [
   {
     name: "Women's",
-    href: "#",
+    href: "/category/men",
     imageSrc:
       "https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-04-collection-01.jpg",
     imageAlt: "Woman wearing a comfortable cotton t-shirt.",
   },
   {
     name: "Men's",
-    href: "#",
+    href: "/category/women",
     imageSrc:
       "https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-04-collection-02.jpg",
     imageAlt: "Man wearing a comfortable and casual cotton t-shirt.",
   },
   {
     name: "Desk Accessories",
-    href: "#",
+    href: "/category/accessories",
     imageSrc:
       "https://tailwindcss.com/plus-assets/img/ecommerce-images/home-page-04-collection-03.jpg",
     imageAlt:
@@ -72,21 +73,19 @@ const perks = [
 ];
 
 export default async function Home() {
+  // getting user Data
+  const rootApi = process.env.NEXT_PUBLIC_API_URL;
+  const latestProduct = await fetch(
+    `${rootApi}/products?sortBy=rating&order=desc&limit=8&select=title,price,rating,thumbnail,id`
+  );
 
-    // getting user Data
-    const rootApi = process.env.NEXT_PUBLIC_API_URL;
-    const latestProduct = await fetch(
-      `${rootApi}/products?sortBy=rating&order=desc&limit=8&select=title,price,rating,thumbnail,id`
-    );
-  
-    if (!latestProduct.ok) {
-      notFound();
-    }
+  if (!latestProduct.ok) {
+    notFound();
+  }
 
-    const productsResponse = await latestProduct.json();
+  const productsResponse = await latestProduct.json();
 
-  
-    const popularProducts = productsResponse.products;
+  const popularProducts = productsResponse.products;
   return (
     <div className="bg-white">
       <Navbar />
@@ -154,8 +153,9 @@ export default async function Home() {
             </h2>
             <div className="mx-auto grid max-w-md grid-cols-1 gap-y-6 px-4 sm:max-w-7xl sm:grid-cols-3 sm:gap-x-6 sm:gap-y-0 sm:px-6 lg:gap-x-8 lg:px-8">
               {collections.map((collection) => (
-                <div
+                <Link
                   key={collection.name}
+                  href={collection.href}
                   className="group relative h-96 rounded-lg bg-white shadow-xl sm:aspect-[4/5] sm:h-auto"
                 >
                   <div
@@ -177,14 +177,14 @@ export default async function Home() {
                         Shop the collection
                       </p>
                       <h3 className="mt-1 font-semibold text-white">
-                        <a href={collection.href}>
+                        <div>
                           <span className="absolute inset-0" />
                           {collection.name}
-                        </a>
+                        </div>
                       </h3>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </section>
