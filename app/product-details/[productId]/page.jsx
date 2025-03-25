@@ -1,6 +1,4 @@
-"use client";
-
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import {
   Dialog,
   DialogBackdrop,
@@ -31,6 +29,9 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { StarIcon } from "@heroicons/react/20/solid";
+import ImageGallery from "@/components/products/ImageGallery";
+import ProductCard from "@/components/products/ProductCard";
+import { notFound } from "next/navigation";
 
 const navigation = {
   categories: [
@@ -317,65 +318,73 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductDetails() {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
+
+const rootApi = process.env.NEXT_PUBLIC_API_URL;
+
+export default async function ProductDetails({ params }) {
+  const { productId } = params;
+  let productDetails;
+  let relatedProducts = []
+
+  // getting getProductDetails
+  async function getProductDetails(productId) {
+    const detailsRequest = await fetch(
+      `${rootApi}/products/${productId}`
+    );
+
+    if (!detailsRequest.ok) {
+      notFound();
+    }
+
+    const details = await detailsRequest.json();
+
+    return details;
+  }
+
+
+  
+  // getting getrelatedProducts
+  async function getRelatedProducts(categoryName) {
+    const productsRequest = await fetch(
+      `${rootApi}/products/category/${categoryName}?sortBy=rating&order=desc&limit=4&select=title,price,rating,thumbnail,id`
+    );
+
+    if (!productsRequest.ok) {
+      notFound();
+    }
+
+    const {products} = await productsRequest.json();
+
+    return products;
+  }
+
+  productDetails = await getProductDetails(productId);
+  relatedProducts = await getRelatedProducts(productDetails.category)
+
+  // if (mainCategory.length == 0) {
+  //   <p>No category to show</p>;
+  // }
+
+  console.log(relatedProducts)
 
   return (
     <main className="mx-auto max-w-7xl sm:px-6 sm:pt-16 lg:px-8">
       <div className="mx-auto max-w-2xl lg:max-w-none">
         {/* Product */}
         <div className="lg:grid lg:grid-cols-2 lg:items-start lg:gap-x-8">
-          
           {/* Image gallery */}
-          <TabGroup className="flex flex-col-reverse">
-            {/* Image selector */}
-            <div className="mx-auto mt-6 hidden w-full max-w-2xl sm:block lg:max-w-none">
-              <TabList className="grid grid-cols-4 gap-6">
-                {product.images.map((image) => (
-                  <Tab
-                    key={image.id}
-                    className="group relative flex h-24 cursor-pointer items-center justify-center rounded-md bg-white text-sm font-medium uppercase text-gray-900 hover:bg-gray-50 focus:outline-none focus:ring focus:ring-indigo-500/50 focus:ring-offset-4"
-                  >
-                    <span className="sr-only">{image.name}</span>
-                    <span className="absolute inset-0 overflow-hidden rounded-md">
-                      <img
-                        alt=""
-                        src={image.src}
-                        className="size-full object-cover"
-                      />
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 rounded-md ring-2 ring-transparent ring-offset-2 group-data-[selected]:ring-indigo-500"
-                    />
-                  </Tab>
-                ))}
-              </TabList>
-            </div>
-
-            <TabPanels>
-              {product.images.map((image) => (
-                <TabPanel key={image.id}>
-                  <img
-                    alt={image.alt}
-                    src={image.src}
-                    className="aspect-square w-full object-cover sm:rounded-lg"
-                  />
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </TabGroup>
+          <ImageGallery productImages={productDetails.images} />
 
           {/* Product info */}
           <div className="mt-10 px-4 sm:mt-16 sm:px-0 lg:mt-0">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">
-              {product.name}
+              {productDetails.title}
             </h1>
 
             <div className="mt-3">
               <h2 className="sr-only">Product information</h2>
               <p className="text-3xl tracking-tight text-gray-900">
-                {product.price}
+              ৳ {productDetails.price}
               </p>
             </div>
 
@@ -389,7 +398,7 @@ export default function ProductDetails() {
                       key={rating}
                       aria-hidden="true"
                       className={classNames(
-                        product.rating > rating
+                        Math.floor(productDetails.rating) > rating
                           ? "text-yellow-500"
                           : "text-gray-300",
                         "size-5 shrink-0"
@@ -405,7 +414,7 @@ export default function ProductDetails() {
               <h3 className="sr-only">Description</h3>
 
               <div
-                dangerouslySetInnerHTML={{ __html: product.description }}
+                dangerouslySetInnerHTML={{ __html: productDetails.description }}
                 className="space-y-6 text-base text-gray-700"
               />
             </div>
@@ -414,14 +423,14 @@ export default function ProductDetails() {
               <div className="mt-10 flex">
                 <button
                   type="submit"
-                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full"
+                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full cursor-pointer"
                 >
                   Add to bag
                 </button>
 
                 <button
                   type="button"
-                  className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500"
+                  className="ml-4 flex items-center justify-center rounded-md px-3 py-3 text-gray-400 hover:bg-gray-100 hover:text-gray-500 cursor-pointer"
                 >
                   <HeartIcon aria-hidden="true" className="size-6 shrink-0" />
                   <span className="sr-only">Add to favorites</span>
@@ -441,42 +450,7 @@ export default function ProductDetails() {
 
           <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
             {relatedProducts.map((product) => (
-              <div key={product.id}>
-                <div className="relative">
-                  <div className="relative h-72 w-full overflow-hidden rounded-lg">
-                    <img
-                      alt={product.imageAlt}
-                      src={product.imageSrc}
-                      className="size-full object-cover"
-                    />
-                  </div>
-                  <div className="relative mt-4">
-                    <h3 className="text-sm font-medium text-gray-900">
-                      {product.name}
-                    </h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      {product.color}
-                    </p>
-                  </div>
-                  <div className="absolute inset-x-0 top-0 flex h-72 items-end justify-end overflow-hidden rounded-lg p-4">
-                    <div
-                      aria-hidden="true"
-                      className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-black opacity-50"
-                    />
-                    <p className="relative text-lg font-semibold text-white">
-                      {product.price}
-                    </p>
-                  </div>
-                </div>
-                <div className="mt-6">
-                  <a
-                    href={product.href}
-                    className="relative flex items-center justify-center rounded-md border border-transparent bg-gray-100 px-8 py-2 text-sm font-medium text-gray-900 hover:bg-gray-200"
-                  >
-                    Add to bag<span className="sr-only">, {product.name}</span>
-                  </a>
-                </div>
-              </div>
+              <ProductCard key={product.id} product={product} />
             ))}
           </div>
         </section>

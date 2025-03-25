@@ -30,7 +30,7 @@ export default function ProductCard({ product }) {
           />
         ))}
       </div>
-      <p className="mt-1 text-sm font-medium text-gray-900">{product.price}</p>
+      <p className="mt-1 text-sm font-medium text-gray-900">৳ {product.price}</p>
     </Link>
   );
 }

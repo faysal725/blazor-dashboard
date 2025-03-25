@@ -70,7 +70,7 @@ export default async function CategoryPage({ params }) {
   if (mainCategory.length == 0) {
     <p>No category to show</p>;
   }
-  console.log(mainCategory);
+  // console.log(mainCategory);
   return (
     <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ">
       {/* main category  */}
