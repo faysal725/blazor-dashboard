@@ -32,6 +32,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import ImageGallery from "@/components/products/ImageGallery";
 import ProductCard from "@/components/products/ProductCard";
 import { notFound } from "next/navigation";
+import AddToCartBtn from "@/components/products/AddToCartBtn";
 
 const navigation = {
   categories: [
@@ -421,12 +422,7 @@ export default async function ProductDetails({ params }) {
 
             <div className="mt-6">
               <div className="mt-10 flex">
-                <button
-                  type="submit"
-                  className="flex max-w-xs flex-1 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50 sm:w-full cursor-pointer"
-                >
-                  Add to bag
-                </button>
+                <AddToCartBtn productData={productDetails}/>
 
                 <button
                   type="button"

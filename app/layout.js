@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ReduxProvider>
-          <div className="bg-white min-h-screen">
+          <div className="bg-white min-h-[60vh]">
             <Navbar />
             {children}
           </div>
