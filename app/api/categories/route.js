@@ -39,7 +39,6 @@ const categories = {
   furnitures: {
     subcategories: [
       "furniture",
-      "vehicle",
       "home-decoration",
       "kitchen-accessories",
     ],
