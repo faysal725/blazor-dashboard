@@ -31,32 +31,32 @@ async function checkAuth(req) {
 
 
 
-async function checkCartAuth(req) {
-  console.log("checkAuth called");
-  try {
-    const decoded = await authenticate(req.headers);
-    console.log("Decoded JWT:", decoded);
-    if (!decoded || !decoded.role) {
-      throw new Error("Invalid user data");
-    }
-    return { decoded, response: NextResponse.next() };
-  } catch (error) {
-    console.log("Auth Error:", error.message);
-    if (
-      error.message === "No token provided" ||
-      error.message === "Invalid token"
-    ) {
-      return {
-        decoded: null,
-        response: new Response("Unauthenticated", { status: 401 }),
-      };
-    }
-    return {
-      decoded: null,
-      response: new Response("Internal Server Error", { status: 500 }),
-    };
-  }
-}
+// async function checkCartAuth(req) {
+//   console.log("checkAuth called");
+//   try {
+//     const decoded = await authenticate(req.headers);
+//     console.log("Decoded JWT:", decoded);
+//     if (!decoded || !decoded.role) {
+//       throw new Error("Invalid user data");
+//     }
+//     return { decoded, response: NextResponse.next() };
+//   } catch (error) {
+//     console.log("Auth Error:", error.message);
+//     if (
+//       error.message === "No token provided" ||
+//       error.message === "Invalid token"
+//     ) {
+//       return {
+//         decoded: null,
+//         response: new Response("Unauthenticated", { status: 401 }),
+//       };
+//     }
+//     return {
+//       decoded: null,
+//       response: new Response("Internal Server Error", { status: 500 }),
+//     };
+//   }
+// }
 
 async function adminDashboardMiddleware(req) {
   console.log("adminDashboardMiddleware called");
@@ -96,7 +96,7 @@ async function userDashboardMiddleware(req) {
 
 async function cartMiddleware(req) {
   console.log("cartMiddleware called");
-  const { decoded, response } = await checkCartAuth(req);
+  const { decoded, response } = await checkAuth(req);
   console.log("Response status:", response.status);
   if (!response.status || response.status !== 200) {
     console.log("Redirecting due to auth failure");
