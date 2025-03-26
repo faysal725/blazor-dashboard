@@ -61,7 +61,7 @@ export default function UserForm() {
     if (res.ok) {
       console.log(data);
       dispatch(addUserData(data.userData));
-      // redirect(callbackUrl);
+      redirect(callbackUrl);
     } else {
       //   alert(data.message);
       setUserErrorData((prevState) => {

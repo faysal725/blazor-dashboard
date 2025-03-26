@@ -26,6 +26,9 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import MainLogo from "@/components/MainLogo";
 import CartButton from "./cart/CartButton";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUserData } from "@/features/userSlice";
+import { useRouter } from "next/navigation";
 
 const navigation = {
   categories: [
@@ -111,7 +114,21 @@ const navigation = {
 
 const currencies = ["BDT"];
 export default function Navbar() {
+  const { name, email, id } = useSelector((state) => state.userR);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+
+  function handleLogout() {
+    dispatch(removeUserData());
+    logoutUser();
+  }
+
+  const logoutUser = async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    router.push("/user");
+  };
+
   return (
     <>
       {/* Mobile menu */}
@@ -196,19 +213,40 @@ export default function Navbar() {
               </form>
 
               <div className="flex items-center space-x-6">
-                <Link
-                  href="/user"
-                  className="text-sm font-medium text-white hover:text-gray-100"
-                >
-                  Sign in
-                </Link>
+                {id && (
+                  <>
+                    <Link
+                      href="/user"
+                      className="text-sm font-medium text-white hover:text-gray-100"
+                    >
+                      Welcome! {name}
+                    </Link>
 
-                <Link
-                  href="/user"
-                  className="text-sm font-medium text-white hover:text-gray-100"
-                >
-                  Create an account
-                </Link>
+                    <button
+                      onClick={() => handleLogout()}
+                      className="text-sm font-medium text-white hover:text-gray-100 cursor-pointer"
+                    >
+                      Logout
+                    </button>
+                  </>
+                )}
+                {!id && (
+                  <>
+                    <Link
+                      href="/user"
+                      className="text-sm font-medium text-white hover:text-gray-100"
+                    >
+                      Sign in
+                    </Link>
+
+                    <Link
+                      href="/user"
+                      className="text-sm font-medium text-white hover:text-gray-100"
+                    >
+                      Create an account
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>
