@@ -72,8 +72,11 @@ export default function CartPage() {
 
           <ul
             role="list"
-            className="divide-y divide-gray-200 border-b border-t border-gray-200"
+            className="divide-y  divide-gray-200 border-b border-t border-gray-200"
           >
+            {
+              products.length == 0 && <p className="text-sm p-4 text-gray-900 capitalize">No Product Added</p>
+            }
             {products.map((product, productIdx) => (
               <li key={product.id} className="flex py-6 sm:py-10">
                 <div className="shrink-0">
@@ -189,6 +192,7 @@ export default function CartPage() {
             <button
               type="submit"
               className="w-full rounded-md border border-transparent bg-gray-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-50 cursor-pointer"
+              disabled={products.length == 0 ? true: false}
             >
               Checkout
             </button>

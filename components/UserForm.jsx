@@ -2,9 +2,13 @@
 
 import React, { useState } from "react";
 import { BoltIcon } from "@heroicons/react/20/solid";
-import { redirect } from "next/navigation";
+import { redirect, useSearchParams } from "next/navigation";
 
 export default function UserForm() {
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get('callbackUrl') || "/admin/dashboard"; // Default to '/' if no callbackUrl
+
+    console.log(callbackUrl)
   const [isSignUp, setIsSignUp] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
@@ -53,7 +57,7 @@ export default function UserForm() {
 
     if (res.ok) {
       console.log(document.cookie);
-      redirect("/admin/dashboard");
+      redirect(callbackUrl);
     } else {
       //   alert(data.message);
       setUserErrorData((prevState) => {
@@ -75,7 +79,7 @@ export default function UserForm() {
 
     if (res.ok) {
       console.log(document.cookie);
-      redirect("/admin/dashboard");
+      redirect(callbackUrl);
     } else {
       //   alert(data.message);
       setUserErrorData((prevState) => {
