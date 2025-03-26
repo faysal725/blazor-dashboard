@@ -56,7 +56,7 @@ export default function UserForm() {
     const data = await res.json();
 
     if (res.ok) {
-      console.log(document.cookie);
+      console.log(data);
       redirect(callbackUrl);
     } else {
       //   alert(data.message);

@@ -29,8 +29,6 @@ async function checkAuth(req) {
   }
 }
 
-
-
 // async function checkCartAuth(req) {
 //   console.log("checkAuth called");
 //   try {
@@ -101,13 +99,11 @@ async function cartMiddleware(req) {
   if (!response.status || response.status !== 200) {
     console.log("Redirecting due to auth failure");
     const url = new URL(`/user`, req.url);
-    url.searchParams.set('callbackUrl', req.nextUrl.pathname); // Store the original URL as a query parameter
+    url.searchParams.set("callbackUrl", req.nextUrl.pathname); // Store the original URL as a query parameter
 
-    console.log(url, 'bulded url')
-    
+    console.log(url, "bulded url");
 
     return NextResponse.redirect(url);
-
   }
   try {
     restrictTo(decoded, "user");
@@ -118,6 +114,14 @@ async function cartMiddleware(req) {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
     }
   }
+}
+
+async function apiAuthMiddleware(req) {
+  console.log("apiAuthMiddleware called");
+  const { decoded, response } = await checkAuth(req);
+  if (!response.status || response.status !== 200) return response;
+  req.user = decoded; // Attach user to request
+  return NextResponse.next();
 }
 
 export async function middleware(req) {
@@ -132,11 +136,22 @@ export async function middleware(req) {
     return await adminDashboardMiddleware(req);
   } else if (pathname.startsWith("/cart")) {
     return await cartMiddleware(req);
+  } else if (
+    pathname.startsWith("/api/orders") ||
+    pathname.startsWith("/api/user")
+  ) {
+    return await apiAuthMiddleware(req);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/dashboard/:path*", "/user/dashboard/:path*", "/cart"],
+  matcher: [
+    "/admin/dashboard/:path*",
+    "/user/dashboard/:path*",
+    "/cart",
+    '/api/orders/:path*',
+    "/api/user/:path*",
+  ],
 };
