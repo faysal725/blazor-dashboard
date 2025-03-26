@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import cartReducer from "../features/cartSlice";
+import userReducer from "../features/userSlice"
 import { persistStore, persistReducer } from "redux-persist";
 import { combineReducers } from "redux";
 import storage from "redux-persist/lib/storage";
@@ -14,12 +15,13 @@ import storage from "redux-persist/lib/storage";
 const persistConfig = {
   key: "root", // Key for storage
   storage, // Use localStorage
-  whitelist: ["cartR"], // Only persist the 'cart' slice (optional)
+  whitelist: ["cartR", 'userR'], // Only persist the 'cart' slice (optional)
 };
 
 // Combine reducers
 const rootReducer = combineReducers({
   cartR: cartReducer,
+  userR: userReducer
   // Add more slices here (e.g., categories, user)
 });
 

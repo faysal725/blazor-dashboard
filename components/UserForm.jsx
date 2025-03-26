@@ -3,12 +3,15 @@
 import React, { useState } from "react";
 import { BoltIcon } from "@heroicons/react/20/solid";
 import { redirect, useSearchParams } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { addUserData } from "@/features/userSlice";
 
 export default function UserForm() {
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || "/admin/dashboard"; // Default to '/' if no callbackUrl
+  const callbackUrl = searchParams.get("callbackUrl") || "/admin/dashboard"; // Default to '/' if no callbackUrl
 
-    console.log(callbackUrl)
+  const dispatch = useDispatch();
+
   const [isSignUp, setIsSignUp] = useState(false);
   const [userData, setUserData] = useState({
     name: "",
@@ -57,7 +60,8 @@ export default function UserForm() {
 
     if (res.ok) {
       console.log(data);
-      redirect(callbackUrl);
+      dispatch(addUserData(data.userData));
+      // redirect(callbackUrl);
     } else {
       //   alert(data.message);
       setUserErrorData((prevState) => {
@@ -78,7 +82,8 @@ export default function UserForm() {
     const data = await res.json();
 
     if (res.ok) {
-      console.log(document.cookie);
+      // console.log(data);
+      dispatch(addUserData(data.userData));
       redirect(callbackUrl);
     } else {
       //   alert(data.message);
