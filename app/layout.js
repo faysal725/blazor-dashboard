@@ -25,14 +25,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReduxProvider>
-          <div className="bg-white min-h-[60vh]">
-            <Navbar />
-            {children}
-          </div>
-
-          <Footer />
-        </ReduxProvider>
+        {children}
       </body>
     </html>
   );
