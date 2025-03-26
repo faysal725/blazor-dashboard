@@ -1,18 +1,16 @@
-// middleware.js
+// middleware.js (in project root)
 import { NextResponse } from "next/server";
 import { authenticate, restrictTo } from "./lib/auth";
 
+// Shared authentication middleware
 async function checkAuth(req) {
-  console.log("checkAuth called");
   try {
-    const decoded = await authenticate(req.headers);
-    console.log("Decoded JWT:", decoded);
+    const decoded = await authenticate(req.headers); // Now async
     if (!decoded || !decoded.role) {
       throw new Error("Invalid user data");
     }
     return { decoded, response: NextResponse.next() };
   } catch (error) {
-    console.log("Auth Error:", error.message);
     if (
       error.message === "No token provided" ||
       error.message === "Invalid token"
@@ -29,8 +27,8 @@ async function checkAuth(req) {
   }
 }
 
+// Admin dashboard middleware
 async function adminDashboardMiddleware(req) {
-  console.log("adminDashboardMiddleware called");
   const { decoded, response } = await checkAuth(req);
   if (!response.status || response.status !== 200) return response;
 
@@ -46,40 +44,31 @@ async function adminDashboardMiddleware(req) {
   }
 }
 
+// User dashboard middleware
 async function userDashboardMiddleware(req) {
-  console.log("userDashboardMiddleware called");
   const { decoded, response } = await checkAuth(req);
-  console.log("Response status:", response.status);
-  if (!response.status || response.status !== 200) {
-    console.log("Redirecting due to auth failure");
-    return NextResponse.redirect(new URL("/user", req.url));
-  }
-  try {
-    restrictTo(decoded, "user");
-    return NextResponse.next();
-  } catch (error) {
-    console.log("user Role Error:", error.message);
-    if (error.message === "Insufficient permissions") {
-      return NextResponse.redirect(new URL("/admin/dashboard", req.url));
-    }
-  }
+  if (!response.status || response.status !== 200) return response;
+
+  // No role restriction; just ensure authenticated
+  return NextResponse.next();
 }
 
+// Main middleware
 export async function middleware(req) {
   console.log("Middleware triggered for:", req.url);
   console.log("Cookie:", req.headers.get("cookie"));
 
   const pathname = req.nextUrl.pathname;
 
-  if (pathname.startsWith("/user/")) {
-    return await userDashboardMiddleware(req);
-  } else if (pathname.startsWith("/admin/")) {
+  if (pathname.startsWith("/admin/")) {
     return await adminDashboardMiddleware(req);
+  } else if (pathname.startsWith("/user/")) {
+    return await userDashboardMiddleware(req);
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin/dashboard/:path*", "/user/dashboard/:path*", "/cart"],
+  matcher: ["/admin/:path*", "/user/:path*"],
 };

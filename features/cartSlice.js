@@ -31,8 +31,47 @@ const cartSlice = createSlice({
       );
       state.total = Math.ceil(state.subtotal + state.deliveryCharge);
     },
-    removeProducts: (state, action) => {
+    addProductByQuantity: (state, action) => {
       console.log(action.payload);
+
+      // let isProductExist = state.products.findIndex(
+      //   (product) => action.payload.id == product.id
+      // );
+
+      const updatedProducts = state.products.filter(
+        (product) => product.id !== action.payload.id
+      );
+
+      // console.log(state.products[isProductExist]["quantity"], action.payload.quantity);
+
+      state.products = [...updatedProducts, action.payload];
+
+      state.noOfProducts = state.products.length;
+      state.subtotal = state.products.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.price * currentValue.quantity,
+        0
+      );
+      state.total = Math.ceil(state.subtotal + state.deliveryCharge);
+    },
+    removeProducts: (state, action) => {
+      let isProductExist = state.products.findIndex(
+        (product) => action.payload.id == product.id
+      );
+
+      // console.log(state.products[isProductExist]["quantity"]);
+      if (state.products[isProductExist]["quantity"] <= 1) {
+        return;
+      }
+      state.products[isProductExist]["quantity"] -= 1;
+
+      state.noOfProducts = state.products.length;
+      state.subtotal = state.products.reduce(
+        (accumulator, currentValue) =>
+          accumulator + currentValue.price * currentValue.quantity,
+        0
+      );
+      state.total = Math.ceil(state.subtotal + state.deliveryCharge);
     },
     emptyCart: (state) => {
       state.noOfProducts = 0;
@@ -44,4 +83,5 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { addProducts, removeProducts, emptyCart } = cartSlice.actions;
+export const { addProducts, removeProducts, emptyCart, addProductByQuantity } =
+  cartSlice.actions;
