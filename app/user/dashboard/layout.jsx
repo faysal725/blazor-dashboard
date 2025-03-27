@@ -34,6 +34,8 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
+import { useLogout } from "@/hooks/useLogout";
 
 const navigation = [
   { name: "Dashboard", href: "/user/dashboard", icon: HomeIcon, current: true },
@@ -83,12 +85,14 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Example({ children }) {
+export default function userLayout({ children }) {
+  const { name, email, id } = useSelector((state) => state.userR);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
+    const logout = useLogout()
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+    await logout()
     router.push("/user");
   };
 
@@ -287,7 +291,7 @@ export default function Example({ children }) {
                         aria-hidden="true"
                         className="ml-4 text-sm/6 font-semibold text-gray-900"
                       >
-                        Tom Cook
+                        {name}
                       </span>
                       <ChevronDownIcon
                         aria-hidden="true"

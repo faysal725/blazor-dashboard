@@ -33,6 +33,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import Link from "next/link";
+import { useLogout } from "@/hooks/useLogout";
 
 const navigation = [
   {
@@ -80,11 +81,11 @@ function classNames(...classes) {
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
-
+  const logout = useLogout()
   console.log("client");
 
   const handleLogout = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
+    await logout()
     router.push("/admin");
   };
   return (

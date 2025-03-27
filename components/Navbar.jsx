@@ -29,6 +29,7 @@ import CartButton from "./cart/CartButton";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUserData } from "@/features/userSlice";
 import { useRouter } from "next/navigation";
+import { useLogout } from "@/hooks/useLogout";
 
 const navigation = {
   categories: [
@@ -118,16 +119,9 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const logout = useLogout()
 
-  function handleLogout() {
-    dispatch(removeUserData());
-    logoutUser();
-  }
 
-  const logoutUser = async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/user");
-  };
 
   return (
     <>
@@ -223,7 +217,7 @@ export default function Navbar() {
                     </Link>
 
                     <button
-                      onClick={() => handleLogout()}
+                      onClick={() => logout()}
                       className="text-sm font-medium text-white hover:text-gray-100 cursor-pointer"
                     >
                       Logout

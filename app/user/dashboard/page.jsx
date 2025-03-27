@@ -1,12 +1,11 @@
 import Header from "@/components/Header";
+import UserHeader from "@/components/UserHeader";
 import React from "react";
 
 export default function userDashboardPage() {
   return (
     <div>
-      <Header
-        title="Welcome, User!"
-      />
+      <UserHeader />
       <section>
         <h2>Recent Orders</h2>
         <ul>
