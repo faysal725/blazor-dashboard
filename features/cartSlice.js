@@ -24,11 +24,13 @@ const cartSlice = createSlice({
         state.products[isProductExist]["quantity"] += 1;
       }
       state.noOfProducts = state.products.length;
-      state.subtotal = state.products.reduce(
-        (accumulator, currentValue) =>
-          accumulator + currentValue.price * currentValue.quantity,
-        0
-      );
+      state.subtotal = state.products
+        .reduce(
+          (accumulator, currentValue) =>
+            accumulator + currentValue.price * currentValue.quantity,
+          0
+        )
+        .toFixed(2);
       state.total = Math.ceil(state.subtotal + state.deliveryCharge);
     },
     addProductByQuantity: (state, action) => {
@@ -66,11 +68,31 @@ const cartSlice = createSlice({
       state.products[isProductExist]["quantity"] -= 1;
 
       state.noOfProducts = state.products.length;
-      state.subtotal = state.products.reduce(
-        (accumulator, currentValue) =>
-          accumulator + currentValue.price * currentValue.quantity,
-        0
+      state.subtotal = state.products
+        .reduce(
+          (accumulator, currentValue) =>
+            accumulator + currentValue.price * currentValue.quantity,
+          0
+        )
+        .toFixed(2);
+      state.total = Math.ceil(state.subtotal + state.deliveryCharge);
+    },
+
+    removeSpecificProduct: (state, action) => {
+      let productIndex = state.products.findIndex(
+        (product) => action.payload.id == product.id
       );
+
+      state.products.splice(productIndex, 1);
+
+      state.noOfProducts = state.products.length;
+      state.subtotal = state.products
+        .reduce(
+          (accumulator, currentValue) =>
+            accumulator + currentValue.price * currentValue.quantity,
+          0
+        )
+        .toFixed(2);
       state.total = Math.ceil(state.subtotal + state.deliveryCharge);
     },
     emptyCart: (state) => {
@@ -83,5 +105,10 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { addProducts, removeProducts, emptyCart, addProductByQuantity } =
-  cartSlice.actions;
+export const {
+  addProducts,
+  removeProducts,
+  emptyCart,
+  addProductByQuantity,
+  removeSpecificProduct,
+} = cartSlice.actions;
