@@ -120,8 +120,16 @@ async function apiAuthMiddleware(req) {
   console.log("apiAuthMiddleware called");
   const { decoded, response } = await checkAuth(req);
   if (!response.status || response.status !== 200) return response;
-  req.user = decoded; // Attach user to request
-  return NextResponse.next();
+  // console.log(decoded, 'this getting value')
+  // req.user = decoded; // Attach user to request
+  // return NextResponse.next();
+
+  // Clone the response and set a custom header with user data
+  const modifiedResponse = NextResponse.next();
+  modifiedResponse.headers.set('x-user', JSON.stringify(decoded));
+  
+  return modifiedResponse;
+  
 }
 
 export async function middleware(req) {

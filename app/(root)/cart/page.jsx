@@ -34,9 +34,11 @@ import IncrementDecrementCounter from "@/components/products/IncrementDecrementC
 import {
   addProductByQuantity,
   addProducts,
+  emptyCart,
   removeProducts,
   removeSpecificProduct,
 } from "@/features/cartSlice";
+import { useRouter } from "next/navigation";
 
 const relatedProducts = [
   {
@@ -56,7 +58,7 @@ export default function CartPage() {
   const [open, setOpen] = useState(false);
   const { deliveryCharge, noOfProducts, products, subtotal, total } =
     useSelector((state) => state.cartR);
-
+  const router = useRouter()
   const dispatch = useDispatch();
   const [orderData, setOrderData] = useState({
     fullName: "",
@@ -82,7 +84,7 @@ export default function CartPage() {
     });
   };
 
-  function placeOrder() {
+  async function placeOrder() {
     setOrderErrorData({
       fullName: "",
       phone: "",
@@ -114,6 +116,26 @@ export default function CartPage() {
     }
 
     console.log(orderDetails);
+
+    try {
+      const response = await fetch("/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderDetails),
+        credentials: "include",
+      });
+
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "Failed to place order");
+
+      dispatch(emptyCart());
+      alert(`Order placed! Order ID: ${data.orderId}`);
+      router.push("/user/dashboard/orders");
+    } catch (error) {
+      console.error("Place order error:", error);
+
+      alert(error.message);
+    }
   }
   return (
     <main className="mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8">
