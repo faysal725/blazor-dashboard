@@ -3,14 +3,15 @@ import { NextResponse } from "next/server";
 import { authenticate, restrictTo } from "./lib/auth";
 
 async function checkAuth(req) {
-  console.log("checkAuth called");
+  // console.log("checkAuth called");
   try {
     const decoded = await authenticate(req.headers);
-    console.log("Decoded JWT:", decoded);
+    // console.log("Decoded JWT:", decoded, decoded.role);
     if (!decoded || !decoded.role) {
       throw new Error("Invalid user data");
     }
     return { decoded, response: NextResponse.next() };
+    
   } catch (error) {
     console.log("Auth Error:", error.message);
     if (
@@ -29,35 +30,9 @@ async function checkAuth(req) {
   }
 }
 
-// async function checkCartAuth(req) {
-//   console.log("checkAuth called");
-//   try {
-//     const decoded = await authenticate(req.headers);
-//     console.log("Decoded JWT:", decoded);
-//     if (!decoded || !decoded.role) {
-//       throw new Error("Invalid user data");
-//     }
-//     return { decoded, response: NextResponse.next() };
-//   } catch (error) {
-//     console.log("Auth Error:", error.message);
-//     if (
-//       error.message === "No token provided" ||
-//       error.message === "Invalid token"
-//     ) {
-//       return {
-//         decoded: null,
-//         response: new Response("Unauthenticated", { status: 401 }),
-//       };
-//     }
-//     return {
-//       decoded: null,
-//       response: new Response("Internal Server Error", { status: 500 }),
-//     };
-//   }
-// }
 
 async function adminDashboardMiddleware(req) {
-  console.log("adminDashboardMiddleware called");
+  // console.log("adminDashboardMiddleware called");
   const { decoded, response } = await checkAuth(req);
   if (!response.status || response.status !== 200) return response;
 
@@ -65,7 +40,7 @@ async function adminDashboardMiddleware(req) {
     restrictTo(decoded, "admin");
     return NextResponse.next();
   } catch (error) {
-    console.log("Admin Role Error:", error.message);
+    // console.log("Admin Role Error:", error.message);
     if (error.message === "Insufficient permissions") {
       return NextResponse.redirect(new URL("/user/dashboard", req.url));
     }
@@ -76,16 +51,16 @@ async function adminDashboardMiddleware(req) {
 async function userDashboardMiddleware(req) {
   console.log("userDashboardMiddleware called");
   const { decoded, response } = await checkAuth(req);
-  console.log("Response status:", response.status);
+  // console.log("Response status:", response.status);
   if (!response.status || response.status !== 200) {
-    console.log("Redirecting due to auth failure");
+    // console.log("Redirecting due to auth failure");
     return NextResponse.redirect(new URL("/user", req.url));
   }
   try {
     restrictTo(decoded, "user");
     return NextResponse.next();
   } catch (error) {
-    console.log("user Role Error:", error.message);
+    // console.log("user Role Error:", error.message);
     if (error.message === "Insufficient permissions") {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
     }
@@ -93,15 +68,15 @@ async function userDashboardMiddleware(req) {
 }
 
 async function cartMiddleware(req) {
-  console.log("cartMiddleware called");
+  // console.log("cartMiddleware called");
   const { decoded, response } = await checkAuth(req);
-  console.log("Response status:", response.status);
+  // console.log("Response status:", response.status);
   if (!response.status || response.status !== 200) {
-    console.log("Redirecting due to auth failure");
+    // console.log("Redirecting due to auth failure");
     const url = new URL(`/user`, req.url);
     url.searchParams.set("callbackUrl", req.nextUrl.pathname); // Store the original URL as a query parameter
 
-    console.log(url, "bulded url");
+    // console.log(url, "bulded url");
 
     return NextResponse.redirect(url);
   }
@@ -109,7 +84,7 @@ async function cartMiddleware(req) {
     restrictTo(decoded, "user");
     return NextResponse.next();
   } catch (error) {
-    console.log("user Role Error:", error.message);
+    // console.log("user Role Error:", error.message);
     if (error.message === "Insufficient permissions") {
       return NextResponse.redirect(new URL("/admin/dashboard", req.url));
     }
@@ -119,8 +94,9 @@ async function cartMiddleware(req) {
 async function apiAuthMiddleware(req) {
   console.log("apiAuthMiddleware called");
   const { decoded, response } = await checkAuth(req);
+  await console.log(req, 'this is auth middleware cookie')
   if (!response.status || response.status !== 200) return response;
-  // console.log(decoded, 'this getting value')
+  console.log(decoded, 'this getting value')
   // req.user = decoded; // Attach user to request
   // return NextResponse.next();
 
@@ -133,8 +109,8 @@ async function apiAuthMiddleware(req) {
 }
 
 export async function middleware(req) {
-  console.log("Middleware triggered for:", req.url);
-  console.log("Cookie:", req.headers.get("cookie"));
+  // console.log("Middleware triggered for:", req.url);
+  // console.log("Cookie:", req.headers.get("cookie"));
 
   const pathname = req.nextUrl.pathname;
 
@@ -144,7 +120,8 @@ export async function middleware(req) {
     return await adminDashboardMiddleware(req);
   } else if (pathname.startsWith("/cart")) {
     return await cartMiddleware(req);
-  } else if (
+  } 
+  else if (
     pathname.startsWith("/api/orders") ||
     pathname.startsWith("/api/user")
   ) {

@@ -72,6 +72,7 @@ export async function POST(req) {
 }
 
 export async function GET(req) {
+  console.log(req.headers.get("x-user"), 'user header')
   try {
     // Get user from custom header
     const userHeader = req.headers.get("x-user");

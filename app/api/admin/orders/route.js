@@ -1,7 +1,7 @@
 // app/api/admin/orders/route.js
 import { NextResponse } from "next/server";
-import { db } from "../../../../lib/db";
 import { restrictTo } from "@/lib/auth";
+import { db } from "@/lib/db";
 
 export async function GET(req) {
   try {

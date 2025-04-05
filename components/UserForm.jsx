@@ -5,6 +5,7 @@ import { BoltIcon } from "@heroicons/react/20/solid";
 import { redirect, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addUserData } from "@/features/userSlice";
+import Link from "next/link";
 
 export default function UserForm() {
   const searchParams = useSearchParams();
@@ -108,7 +109,7 @@ export default function UserForm() {
   return (
     <div className="mx-auto w-full max-w-sm lg:w-96">
       <div>
-        <BoltIcon className="text-gray-900 h-10 w-auto" />
+        <Link href="/"><BoltIcon className="text-gray-900 h-10 w-auto" /></Link>
         <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">
           <span className="mr-1">{isSignUp ? "Sign In" : "Sign Up"}</span>
           to your account

@@ -89,10 +89,10 @@ export default function userLayout({ children }) {
   const { name, email, id } = useSelector((state) => state.userR);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const router = useRouter();
-    const logout = useLogout()
+  const logout = useLogout();
 
   const handleLogout = async () => {
-    await logout()
+    await logout();
     router.push("/user");
   };
 
@@ -131,12 +131,9 @@ export default function userLayout({ children }) {
               </TransitionChild>
               {/* Sidebar component, swap this element with another sidebar if you like */}
               <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white px-6 pb-4">
-                <div className="flex h-16 shrink-0 items-center">
-                  <img
-                    alt="Your Company"
-                    src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-                    className="h-8 w-auto"
-                  />
+                <div className="flex h-16 shrink-0 items-center gap-1">
+                  <BoltIcon className="h-7 w-auto text-gray-900" />
+                  <p className="text-2xl font-bold text-white italic"></p>
                 </div>
                 <nav className="flex flex-1 flex-col">
                   <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -148,8 +145,8 @@ export default function userLayout({ children }) {
                               href={item.href}
                               className={classNames(
                                 item.current
-                                  ? "bg-gray-50 text-indigo-600"
-                                  : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
+                                  ? "bg-gray-50 text-gray-600"
+                                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-600",
                                 "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
                               )}
                             >
@@ -157,8 +154,8 @@ export default function userLayout({ children }) {
                                 aria-hidden="true"
                                 className={classNames(
                                   item.current
-                                    ? "text-indigo-600"
-                                    : "text-gray-400 group-hover:text-indigo-600",
+                                    ? "text-gray-600"
+                                    : "text-gray-400 group-hover:text-gray-600",
                                   "size-6 shrink-0"
                                 )}
                               />
@@ -172,11 +169,11 @@ export default function userLayout({ children }) {
                     <li className="mt-auto">
                       <div
                         onClick={() => handleLogout()}
-                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-indigo-600 cursor-pointer"
+                        className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold text-gray-700 hover:bg-gray-50 hover:text-gray-600 cursor-pointer"
                       >
                         <Cog6ToothIcon
                           aria-hidden="true"
-                          className="size-6 shrink-0 text-gray-400 group-hover:text-indigo-600"
+                          className="size-6 shrink-0 text-gray-400 group-hover:text-gray-600"
                         />
                         Logout
                       </div>
@@ -191,7 +188,7 @@ export default function userLayout({ children }) {
         {/* Static sidebar for desktop */}
         <div className="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
           {/* Sidebar component, swap this element with another sidebar if you like */}
-          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-indigo-600 px-6 pb-4">
+          <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-gray-600 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center gap-1">
               <BoltIcon className="h-7 w-auto text-white" />
               <p className="text-2xl font-bold text-white italic"></p>
@@ -206,8 +203,8 @@ export default function userLayout({ children }) {
                           href={item.href}
                           className={classNames(
                             item.current
-                              ? "bg-gray-50 text-indigo-600"
-                              : "text-white hover:bg-gray-50 hover:text-indigo-600",
+                              ? "bg-gray-50 text-gray-600"
+                              : "text-white hover:bg-gray-50 hover:text-gray-600",
                             "group flex gap-x-3 rounded-md p-2 text-sm/6 font-semibold"
                           )}
                         >
@@ -215,8 +212,8 @@ export default function userLayout({ children }) {
                             aria-hidden="true"
                             className={classNames(
                               item.current
-                                ? "text-indigo-600"
-                                : "text-white group-hover:text-indigo-600",
+                                ? "text-gray-600"
+                                : "text-white group-hover:text-gray-600",
                               "size-6 shrink-0"
                             )}
                           />
