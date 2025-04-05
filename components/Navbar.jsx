@@ -397,16 +397,16 @@ export default function Navbar() {
                 </Link>
 
                 <div className="flex flex-1 items-center justify-end">
-                  <a
+                  {/* <a
                     href="#"
                     className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block"
                   >
                     Search
-                  </a>
+                  </a> */}
 
                   <div className="flex items-center lg:ml-8">
                     {/* Help */}
-                    <a
+                    {/* <a
                       href="#"
                       className="p-2 text-gray-400 hover:text-gray-500 lg:hidden"
                     >
@@ -421,7 +421,7 @@ export default function Navbar() {
                       className="hidden text-sm font-medium text-gray-700 hover:text-gray-800 lg:block"
                     >
                       Help
-                    </a>
+                    </a> */}
 
                     {/* Cart */}
                     <CartButton />
