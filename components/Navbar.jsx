@@ -38,7 +38,7 @@ const navigation = {
       featured: [
         {
           name: "New Arrivals",
-          href: "#",
+          href: "/category/women",
           imageSrc:
             "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-category-01.jpg",
           imageAlt:
@@ -46,7 +46,7 @@ const navigation = {
         },
         {
           name: "Basic Tees",
-          href: "#",
+          href: "/category/women",
           imageSrc:
             "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-category-02.jpg",
           imageAlt:
@@ -54,7 +54,7 @@ const navigation = {
         },
         {
           name: "Accessories",
-          href: "#",
+          href: "/category/women",
           imageSrc:
             "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-category-03.jpg",
           imageAlt:
@@ -62,13 +62,14 @@ const navigation = {
         },
         {
           name: "Carry",
-          href: "#",
+          href: "/category/women",
           imageSrc:
             "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-category-04.jpg",
           imageAlt:
             "Model opening tan leather long wallet with credit card pockets and cash pouch.",
         },
       ],
+      href: "/category/women",
     },
     {
       name: "Men",
@@ -105,14 +106,88 @@ const navigation = {
             "Model putting folded cash into slim card holder olive leather wallet with hand stitching.",
         },
       ],
+      href: "/category/men",
+    },
+    {
+      name: "Accessories",
+      featured: [
+        {
+          name: "New Arrivals",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-01.jpg",
+          imageAlt:
+            "Hats and sweaters on wood shelves next to various colors of t-shirts on hangers.",
+        },
+        {
+          name: "Basic Tees",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-02.jpg",
+          imageAlt: "Model wearing light heather gray t-shirt.",
+        },
+        {
+          name: "Accessories",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-03.jpg",
+          imageAlt:
+            "Grey 6-panel baseball hat with black brim, black mountain graphic on front, and light heather gray body.",
+        },
+        {
+          name: "Carry",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-04.jpg",
+          imageAlt:
+            "Model putting folded cash into slim card holder olive leather wallet with hand stitching.",
+        },
+      ],
+      href: "/category/accessories",
+    },
+    {
+      name: "Vehicals",
+      featured: [
+        {
+          name: "New Arrivals",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-01.jpg",
+          imageAlt:
+            "Hats and sweaters on wood shelves next to various colors of t-shirts on hangers.",
+        },
+        {
+          name: "Basic Tees",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-02.jpg",
+          imageAlt: "Model wearing light heather gray t-shirt.",
+        },
+        {
+          name: "Accessories",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-03.jpg",
+          imageAlt:
+            "Grey 6-panel baseball hat with black brim, black mountain graphic on front, and light heather gray body.",
+        },
+        {
+          name: "Carry",
+          href: "#",
+          imageSrc:
+            "https://tailwindcss.com/plus-assets/img/ecommerce-images/mega-menu-01-men-category-04.jpg",
+          imageAlt:
+            "Model putting folded cash into slim card holder olive leather wallet with hand stitching.",
+        },
+      ],
+      href: "/category/vehicals",
     },
   ],
   pages: [
-    { name: "Company", href: "#" },
-    { name: "Stores", href: "#" },
+    { name: "About Us", href: "/about-us" },
+    { name: "Contact Us", href: "#" },
   ],
 };
-
 const currencies = ["BDT"];
 export default function Navbar() {
   const { name, email, id } = useSelector((state) => state.userR);
@@ -153,12 +228,13 @@ export default function Navbar() {
             <div className="space-y-6 border-t border-gray-200 px-4 py-6">
               {navigation.pages.map((page) => (
                 <div key={page.name} className="flow-root">
-                  <a
+                  <Link
                     href={page.href}
                     className="-m-2 block p-2 font-medium text-gray-900"
                   >
                     {page.name}
-                  </a>
+                  </Link>
+
                 </div>
               ))}
             </div>
@@ -260,83 +336,34 @@ export default function Navbar() {
 
                 <div className="hidden h-full lg:flex">
                   {/* Flyout menus */}
-                  <PopoverGroup className="inset-x-0 bottom-0 px-4">
+                  <div className="inset-x-0 bottom-0 px-4">
                     <div className="flex h-full justify-center space-x-8">
                       {navigation.categories.map((category) => (
-                        <Popover key={category.name} className="flex">
-                          <div className="relative flex">
-                            <PopoverButton className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
+                        <div key={category.name} className="flex cursor-pointer">
+                          <Link className="relative flex" href={category.href}>
+                            <button className="group relative flex items-center justify-center text-sm font-medium text-gray-700 transition-colors duration-200 ease-out hover:text-gray-800 data-[open]:text-indigo-600">
                               {category.name}
                               <span
                                 aria-hidden="true"
                                 className="absolute inset-x-0 -bottom-px z-20 h-0.5 transition duration-200 ease-out group-data-[open]:bg-indigo-600"
                               />
-                            </PopoverButton>
-                          </div>
+                            </button>
+                          </Link>
 
-                          <PopoverPanel
-                            transition
-                            className="group absolute inset-x-0 top-full z-10 bg-white text-sm text-gray-500 transition data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in"
-                          >
-                            {/* Presentational element used to render the bottom shadow, if we put the shadow on the actual panel it pokes out the top, so we use this shorter element to hide the top of the shadow */}
-                            <div
-                              aria-hidden="true"
-                              className="absolute inset-0 top-1/2 bg-white shadow"
-                            />
-                            {/* Fake border when menu is open */}
-                            <div
-                              aria-hidden="true"
-                              className="absolute inset-0 top-0 mx-auto h-px max-w-7xl px-8"
-                            >
-                              <div className="h-px w-full bg-transparent transition-colors duration-200 ease-out group-data-[open]:bg-gray-200" />
-                            </div>
-
-                            <div className="relative">
-                              <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                                <div className="grid grid-cols-4 gap-x-8 gap-y-10 py-16">
-                                  {category.featured.map((item) => (
-                                    <div
-                                      key={item.name}
-                                      className="group relative"
-                                    >
-                                      <img
-                                        alt={item.imageAlt}
-                                        src={item.imageSrc}
-                                        className="aspect-square w-full rounded-md bg-gray-100 object-cover group-hover:opacity-75"
-                                      />
-                                      <a
-                                        href={item.href}
-                                        className="mt-4 block font-medium text-gray-900"
-                                      >
-                                        <span
-                                          aria-hidden="true"
-                                          className="absolute inset-0 z-10"
-                                        />
-                                        {item.name}
-                                      </a>
-                                      <p aria-hidden="true" className="mt-1">
-                                        Shop now
-                                      </p>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            </div>
-                          </PopoverPanel>
-                        </Popover>
+                        </div>
                       ))}
 
                       {navigation.pages.map((page) => (
-                        <a
+                        <Link
                           key={page.name}
                           href={page.href}
                           className="flex items-center text-sm font-medium text-gray-700 hover:text-gray-800"
                         >
                           {page.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
-                  </PopoverGroup>
+                  </div>
                 </div>
 
                 {/* Mobile menu and search (lg-) */}

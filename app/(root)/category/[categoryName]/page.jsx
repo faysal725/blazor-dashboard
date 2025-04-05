@@ -11,7 +11,7 @@ const rootApi = process.env.NEXT_PUBLIC_API_URL;
 async function SubCategoryProducts({ subcategoryName }) {
   const response = await fetch(
     `${rootApi}/products/category/${subcategoryName}?sortBy=rating&order=desc&limit=5&select=title,price,rating,thumbnail,id`,
-    { cache: "no-store" }
+    { cache: 'force-cache' }
   );
 
   if (!response.ok) {
