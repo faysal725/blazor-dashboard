@@ -1,12 +1,14 @@
+
 import CategoryHeader from "@/components/category/CategoryHeader";
 import ProductCard from "@/components/products/ProductCard";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
 
-let BASE_URL = "http://localhost:3000";
+// let BASE_URL = "http://localhost:3000";
 
 const rootApi = process.env.NEXT_PUBLIC_API_URL;
+const baseApi = process.env.NEXT_LOCAL_API_URL;
 
 async function SubCategoryProducts({ subcategoryName }) {
   const response = await fetch(
@@ -52,8 +54,9 @@ export default async function CategoryPage({ params }) {
 
   // getting sub categories
   async function getCategories(mainCategory) {
+    console.log(baseApi, 'base url')
     const categoryRequest = await fetch(
-      `${BASE_URL}/api/categories?category=${mainCategory}`
+      `${baseApi}/categories?category=${mainCategory}`
     );
 
     if (!categoryRequest.ok) {
