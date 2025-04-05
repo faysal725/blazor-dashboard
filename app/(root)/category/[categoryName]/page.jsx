@@ -56,7 +56,7 @@ export default async function CategoryPage({ params }) {
   async function getCategories(mainCategory) {
     console.log(baseApi, 'base url')
     const categoryRequest = await fetch(
-      `${baseApi}/categories?category=${mainCategory}`
+      `${baseApi}/api/categories?category=${mainCategory}`
     );
 
     if (!categoryRequest.ok) {
