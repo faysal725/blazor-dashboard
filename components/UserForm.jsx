@@ -6,6 +6,7 @@ import { redirect, useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { addUserData } from "@/features/userSlice";
 import Link from "next/link";
+import { toast } from "react-toastify";
 
 export default function UserForm() {
   const searchParams = useSearchParams();
@@ -62,6 +63,7 @@ export default function UserForm() {
     if (res.ok) {
       console.log(data);
       dispatch(addUserData(data.userData));
+      toast.success('Logged in successfully!')
       redirect(callbackUrl);
     } else {
       //   alert(data.message);
@@ -71,6 +73,7 @@ export default function UserForm() {
           common: data.message,
         };
       });
+      toast.error('Log in failed')
     }
   };
 
@@ -85,6 +88,8 @@ export default function UserForm() {
     if (res.ok) {
       // console.log(data);
       dispatch(addUserData(data.userData));
+
+      toast.success('Register in successfully!')
       redirect(callbackUrl);
     } else {
       //   alert(data.message);
@@ -94,6 +99,8 @@ export default function UserForm() {
           common: data.message,
         };
       });
+
+      toast.error('Register in failed')
     }
   };
 
@@ -105,10 +112,10 @@ export default function UserForm() {
       };
     });
   };
-
   return (
     <div className="mx-auto w-full max-w-sm lg:w-96">
       <div>
+
         <Link href="/"><BoltIcon className="text-gray-900 h-10 w-auto" /></Link>
         <h2 className="mt-8 text-2xl/9 font-bold tracking-tight text-gray-900">
           <span className="mr-1">{isSignUp ? "Sign In" : "Sign Up"}</span>
@@ -126,7 +133,7 @@ export default function UserForm() {
       </div>
 
       <div className="mt-5">
-        <p className="text-base text-red-500 text-center">
+        <p className="text-xs text-red-500 text-center">
           {userErrorData.common}
         </p>
         <div>
