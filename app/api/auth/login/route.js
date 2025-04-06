@@ -29,7 +29,7 @@ export async function POST(req) {
     {
       status: 200,
       headers: {
-        "Set-Cookie": `token=${token};  SameSite=Lax; Path=/; Max-Age=3600`,
+        "Set-Cookie": `token=${token}; HttpOnly; SameSite=Lax; Path=/; Max-Age=3600`,
       },
     }
   );
